@@ -1,0 +1,42 @@
+Sub Stock()
+Dim lastrow As Long
+Dim TickerRow As Integer
+TickerRow = 2
+Dim TickerName As String
+
+'name Main column headers
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "% Change"
+Range("L1").Value = "Total Stock Volume"
+Selection.Columns.AutoFit
+
+'Name Auxiliary column headers
+Range("O1").Value = "Highlight"
+Range("P1").Value = "Ticker"
+Range("Q1").Value = "Value"
+Range("O2").Value = "Greatest % Increase"
+Range("O3").Value = "Greatest % Decrease"
+Range("O4").Value = "Greatest Total Volume"
+Selection.Columns.AutoFit
+
+'Find Last row for looping
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+For i = 2 To lastrow
+
+' Check if we are still within the same ticker, if we are not...
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+    'Set Ticker name
+    TickerName = Cells(i, 1).Value
+    
+    'Print unique Ticker in summary column
+    Range("I" & TickerRow).Value = TickerName
+    
+    'Add one to the ticker column row
+    TickerRow = TickerRow + 1
+    
+End If
+Next i
+end sub

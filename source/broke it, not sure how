@@ -1,0 +1,71 @@
+Sub Stock()
+Dim lastrow As Long
+Dim TickerRow As Integer
+TickerRow = 2
+Dim TickerName As String
+
+
+' Set an initial variable for holding the percent changer per ticker
+  Dim PercentChange As Double
+  PercentChange = 0
+  Dim Delta_Price As Double
+  Delta_Price = 0
+  Dim Delta_Percent As Double
+  Delta_Percent = 0
+  Dim Open_Price As Double
+  Open_Price = 0
+  Dim Close_Price As Double
+  Close_Price = 0
+  
+'name Main column headers
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "% Change"
+Range("L1").Value = "Total Stock Volume"
+Selection.Columns.AutoFit
+
+'Name Auxiliary column headers
+Range("O1").Value = "Highlight"
+Range("P1").Value = "Ticker"
+Range("Q1").Value = "Value"
+Range("O2").Value = "Greatest % Increase"
+Range("O3").Value = "Greatest % Decrease"
+Range("O4").Value = "Greatest Total Volume"
+Selection.Columns.AutoFit
+
+'Find Last row for looping
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+For i = 2 To lastrow
+
+' Check if we are still within the same ticker, if we are not...
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+    'Set Ticker name
+    TickerName = Cells(i, 1).Value
+    
+    'Calculate Percent Change
+     'Calculate Delta_Price And Delta_Percent
+     Close_Price = CurrentWs.Cells(i, 6).Value
+     Delta_Price = Close_Price - Open_Price
+     ' Check Division by 0 condition
+     If Open_Price <> 0 Then
+     Delta_Percent = (Delta_Price / Open_Price) * 100
+    
+    'Print Delta price
+    CurrentWs.Range("J" & Summary_Table_Row).Value = Delta_Price
+    
+    'Print unique Ticker in summary column
+    Range("I" & TickerRow).Value = TickerName
+    
+    'Add one to the ticker column row
+    TickerRow = TickerRow + 1
+    
+End If
+Next i
+
+
+
+
+End Sub
+

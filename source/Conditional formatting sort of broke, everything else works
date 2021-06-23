@@ -1,0 +1,73 @@
+Sub Stock()
+Dim lastrow As Long
+Dim TickerRow As Integer
+TickerRow = 2
+Dim TickerName As String
+
+'name Main column headers
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "% Change"
+Range("L1").Value = "Total Stock Volume"
+
+'Name Auxiliary column headers
+Range("O1").Value = "Highlight"
+Range("P1").Value = "Ticker"
+Range("Q1").Value = "Value"
+Range("O2").Value = "Greatest % Increase"
+Range("O3").Value = "Greatest % Decrease"
+Range("O4").Value = "Greatest Total Volume"
+Range("A1:O4").Columns.AutoFit
+
+'Set an initial variable for holding the percent changer per ticker
+
+  Dim DeltaPrice As Double
+  DeltaPrice = 0
+  Dim DeltaPercent As Double
+  DeltaPercent = 0
+  Dim OpenPrice As Double
+  OpenPrice = 0
+  Dim ClosePrice As Double
+  ClosePrice = 0
+
+'Find Last row for looping
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+'Loop starting row 2
+For i = 2 To lastrow
+
+' Check if we are still within the same ticker, if we are not...
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+    'Set Ticker name
+    TickerName = Cells(i, 1).Value
+    
+    'set open/close Price
+    OpenPrice = Cells(2, 3).Value
+    ClosePrice = Cells(i, 6).Value
+    
+    DeltaPrice = ClosePrice - OpenPrice
+    
+    'Print unique Ticker in summary column
+    Range("I" & TickerRow).Value = TickerName
+    'Print Delta price
+    Range("J" & TickerRow).Value = DeltaPrice
+
+    'Add one to the ticker column row
+    TickerRow = TickerRow + 1
+    
+End If
+    'Conditional formatting
+    If DeltaPrice > 0 Then
+    
+    'Green
+    Range("J" & TickerRow).Interior.ColorIndex = 43
+    
+    ElseIf DeltaPrice < 0 Then
+    'Red
+    Range("J" & TickerRow).Interior.ColorIndex = 22
+End If
+    
+Next i
+End Sub
+

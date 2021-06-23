@@ -1,0 +1,34 @@
+Sub Challenge()
+    'Print auxiliary solution array
+    Debug.Print "Beginning of Challenge"
+        Dim XMax As Double
+        Dim TMax As String
+        Dim XMin As Double
+        Dim TMin As String
+        Dim lastrow As Long
+        
+    lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+        'Find and print Greatest % increase w/ Ticker
+        XMax = WorksheetFunction.Max(Range("K:K"))
+        Debug.Print "XMax=" & XMax
+        TMax = Range("A:A")(XMax)
+        Debug.Print "TMax=" & TMax
+        Range("Q2").Value = XMax
+        Range("P2") = TMax
+        
+        'Find and print Greatest % decrease w/ Ticker
+        XMin = Application.WorksheetFunction.Min(Range("K:K"))
+        TMin = Range("A:A")(XMin)
+        Range("Q3").Value = XMin
+        Range("P3").Value = TMin
+        
+        'Find and print Greratest total volume w/ Ticker
+        HTotal = Application.WorksheetFunction.Max(Range("L:L"))
+        HTicker = Range("A:A")(HTotal)
+        Range("Q4").Value = HTotal
+        Range("P4").Value = HTicker
+
+
+   
+End Sub

@@ -1,0 +1,126 @@
+Sub Stock()
+
+'This creates a "worksheet loop" that will automatically cycle through each page of the workbook and apply the macro thereto.
+Dim sheets As Worksheet
+For Each sheets In ThisWorkbook.Worksheets
+sheets.Activate
+
+
+    'Set Dimensions
+    Dim lastrow As Long
+    Dim TickerRow As Integer
+    TickerRow = 2
+    Dim TickerName As String
+    
+    'name Main column headers
+    Range("I1").Value = "Ticker"
+    Range("J1").Value = "Yearly Change"
+    Range("K1").Value = "Percent Change"
+    Range("L1").Value = "Total Stock Volume"
+    
+    'Name Auxiliary column headers
+    Range("O1").Value = "Highlight"
+    Range("P1").Value = "Ticker"
+    Range("Q1").Value = "Value"
+    Range("O2").Value = "Greatest % Increase"
+    Range("O3").Value = "Greatest % Decrease"
+    Range("O4").Value = "Greatest Total Volume"
+    Range("A1:O4").Columns.AutoFit
+    Range("K:K").NumberFormat = "0.00%"
+    
+    'Set an initial variable for holding the percent change per ticker
+    
+      Dim DeltaPrice As Double
+      DeltaPrice = 0
+      Dim DeltaPercent As Double
+      DeltaPercent = 0
+      Dim OpenPrice As Double
+      OpenPrice = 0
+      Dim ClosePrice As Double
+      ClosePrice = 0
+      Dim Volume As LongLong
+      Volume = 0
+    'Auxiliary challenge
+      Dim XMax As Double
+      Max = 0
+      Dim TMax As String
+      TMax = " "
+      Dim XMin As Double
+      Min = 0
+      Dim TMin As String
+      TMin = " "
+      Dim HTotal As Double
+      HTotal = 0
+      Dim HTicker As String
+      HTicker = " "
+    
+    'Find Last row for looping
+    lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    'Set initial open price
+    OpenPrice = Cells(2, 3).Value
+    
+    'Loop starting row 2
+    For i = 2 To lastrow
+    
+        ' Check if we are still within the same ticker, if we are not...
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        
+            'Set Ticker name
+            TickerName = Cells(i, 1).Value
+            
+            'set close Price
+            ClosePrice = Cells(i, 6).Value
+            
+            DeltaPrice = ClosePrice - OpenPrice
+            
+            'Print unique Ticker in summary column
+            Range("I" & TickerRow).Value = TickerName
+            'Print Delta price
+            Range("J" & TickerRow).Value = DeltaPrice
+            
+            'Conditional formatting
+            If DeltaPrice > 0 Then
+            
+                'Green
+                Range("J" & TickerRow).Interior.ColorIndex = 43
+            
+            ElseIf DeltaPrice < 0 Then
+                'Red
+                Range("J" & TickerRow).Interior.ColorIndex = 22
+            
+            End If
+            
+            '% change column
+            If OpenPrice <> 0 Then
+            
+                'formula for % change
+                DeltaPercent = (DeltaPrice / OpenPrice) * 100
+            
+                'Print % change
+                Range("K" & TickerRow).Value = DeltaPercent
+            End If
+            
+        
+            'Print Volume in column K
+            Range("L" & TickerRow).Value = Volume
+        
+        'Add one to the ticker column row
+            TickerRow = TickerRow + 1
+            Volume = 0
+        End If
+            
+        'Volume formula
+        Volume = Volume + Cells(i, 7).Value
+        
+    
+    Next i
+   
+'This cycles to the next page in the workbook and repeats the code
+  Next sheets
+        
+    
+End Sub
+
+
+
