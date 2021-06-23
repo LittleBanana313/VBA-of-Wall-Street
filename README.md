@@ -1,7 +1,11 @@
 # VBA-of-Wall-Street
 Struggles and Successes
 Final Code includes moderate and challenge solution that runs through all sheets in the file with one fell swoop.
+
 Pictures of 2014, 2015, 2016 included for edification.
+
+See Source folder for old versions of code throughout development.
+
 
 Moderate Solution:
   - Applies relevant headers
