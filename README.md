@@ -1,5 +1,8 @@
 # VBA-of-Wall-Street
 Struggles and Successes
+
+Written on Excel 2019.
+
 Final Code includes moderate and challenge solution that runs through all sheets in the file with one fell swoop.
 
 Pictures of 2014, 2015, 2016 included for edification.
